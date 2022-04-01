@@ -1,4 +1,4 @@
-package search.web;
+package engine;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import search.utility.In;
+import lib.In;
 
 public class Cache {
 

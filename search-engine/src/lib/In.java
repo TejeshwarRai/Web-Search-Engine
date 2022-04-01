@@ -1,4 +1,4 @@
-package search.utility;
+package lib;
 
 /*************************************************************************
  *  Compilation:  javac In.java

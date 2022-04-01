@@ -1,4 +1,4 @@
-package search.utility;
+package lib;
 /*************************************************************************
  *  Compilation:  javac TST.java
  *  Execution:    java TST < words.txt

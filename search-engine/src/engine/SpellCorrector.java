@@ -1,4 +1,4 @@
-package search.web;
+package engine;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import search.utility.Trie;
-import search.utility.TrieNode;
+import lib.Trie;
+import lib.TrieNode;
 
 public class SpellCorrector {
 
@@ -97,7 +97,7 @@ public class SpellCorrector {
 
 		if (node == null) {
 			for (String word : dictWordCount.keySet()) {
-				int distance = search.utility.Sequences.editDistance(word, sLowerInput);
+				int distance = lib.Sequences.editDistance(word, sLowerInput);
 				TreeMap<Integer, TreeSet<String>> similarWords = map.getOrDefault(distance, new TreeMap<>());
 
 				int iFrequency = dictWordCount.get(word);

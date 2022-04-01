@@ -1,4 +1,4 @@
-package search.web;
+package engine;
 
 
 import java.io.BufferedReader;
@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import search.utility.TST;
+import lib.TST;
 
 public class FindWord {
 

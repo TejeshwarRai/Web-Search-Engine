@@ -1,10 +1,13 @@
-package search.web;
+package engine;
+
+import java.util.Random;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,14 +32,14 @@ public class TextToHTML {
 	 * 
 	 * @param url
 	 */
-	public static void convertToTextFile(String url) throws IOException {
+	public static void convertToTextFile(String htmlURL) throws IOException {
 
-		File dir = new File("src/WebPagesInText");
-		if (!dir.exists()) {
-			dir.mkdir();
+		File webPagesInTextDir = new File("src/WebPagesInText");
+		if (!webPagesInTextDir.exists()) {
+			webPagesInTextDir.mkdir();
 		}
 
-		Document doc = Jsoup.connect(url).get();
+		Document doc = Jsoup.connect(htmlURL).get();
 		String location = null;
 
 		long name = System.currentTimeMillis();
@@ -48,7 +51,7 @@ public class TextToHTML {
 		if (!file3.exists()) {
 			file3.createNewFile();
 		}
-		Cache.addcache(url + " " + loc + ".txt");
+		Cache.addcache(htmlURL + " " + loc + ".txt");
 
 		String text = doc.text();
 		// initialize the print writer object
@@ -58,7 +61,7 @@ public class TextToHTML {
 		// close the file
 		out.close();
 		
-
 	}
-
+	
+	
 }
