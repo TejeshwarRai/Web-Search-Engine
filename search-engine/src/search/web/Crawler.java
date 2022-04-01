@@ -46,7 +46,7 @@ public class Crawler {
 			Document doc = conn.ignoreContentType(true).get();
 			if (conn.response().statusCode() == 200) {
 				System.out.println("Link on this page " + url);
-				TextToHTML.testfiles(url);
+				TextToHTML.convertToTextFile(url);
 				visitedURL.add(url);
 				return doc;
 			}
