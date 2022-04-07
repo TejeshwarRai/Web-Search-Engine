@@ -103,7 +103,7 @@ public class CacheManager {
 		while (!cacheFile.isEmpty()) {
 			String line = cacheFile.readLine();
 			// Get the URL from the string
-			String urlInCache = line.split("  ::  ")[0];
+			String urlInCache = line.split(" ")[0];
 			// Compare URL with the input URL if found return true
 			if (urlInCache.equals(Url)) {
 				return true;

@@ -17,14 +17,15 @@ public class Application {
 			System.out.println("Choose 3 : Rank the web pages according to the occurance of a word");
 			System.out.println("Choose 4 : Auto-Correct (Words Suggestion)");
 			System.out.println("Choose 5 : Auto-Complete");
-			System.out.println("Choose 6 : Exit from program");
+			System.out.println("Choose 6 : Word Frequency");
+			System.out.println("Choose 7 : Exit from program");
 
 //		String url = "https://www.shiksha.com/";
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Please enter your choice");
 			int choice = sc.nextInt();
 			sc = new Scanner(System.in);
-			if (choice == 6) {
+			if (choice == 7) {
 				break;
 			}
 
@@ -38,7 +39,8 @@ public class Application {
 				String url = sc.nextLine();
 				if (isValidUrl(url)) {
 					if (!CacheManager.isAvailable(url)) {
-						Crawler.crawlWeb(1, url, new ArrayList<String>());
+						WebCrawler.crawl(1, url);
+//						Crawler.crawlWeb(1, url, new ArrayList<String>());
 
 					} else {
 						System.out.println("This URL has already been crawled.");
@@ -82,6 +84,14 @@ public class Application {
 				corrector.loadSpellCorrector();
 				ArrayList suggestion1 = corrector.autocomplete(sSearch1);
 				System.out.println(suggestion1.toString());
+
+				break;
+
+			case 6:
+				System.out.println("Please enter a word to check the frequency");
+				String word = sc.nextLine();
+				WordFrequency wf = new WordFrequency();
+				wf.findFrequency(word);
 
 				break;
 

@@ -56,7 +56,7 @@ public class TextToHTML {
 		if (!f.exists()) {
 			f.createNewFile();
 		}
-		CacheManager.addcache(htmlURL + "  ::  " + fileName + ".txt");
+		CacheManager.addcache(htmlURL + " " + fileName + ".txt");
 
 		String text = doc.text();
 		// initialize the print writer object

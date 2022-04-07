@@ -25,7 +25,7 @@ import lib.TST;
 
 public class FindWord {
 
-	private static final String DIR_PATH = "TextFiles/";
+	private static final String DIRECTORY_PATH = "src/WebPagesInText/";
 
 	/*
 	 * public static void main(String[] args) {
@@ -41,46 +41,46 @@ public class FindWord {
 	 */
 	public static void readAllFiles() throws IOException {
 		// create instance of directory
-		File dir = new File(DIR_PATH);
-		Scanner s = new Scanner(System.in);
+		File fileDir = new File(DIRECTORY_PATH);
+		Scanner scanInput = new Scanner(System.in);
 		String restart;
 
 		// Get list of all the files in form of String Array
-		String[] fileNames = dir.list();
+		String[] namingFiles = fileDir.list();
 		
 		// Map used to store Name of Text file mapped to the occurrence of word
-		Map<String, Integer> hm = new HashMap<String, Integer>();
+		Map<String, Integer> hashMap = new HashMap<String, Integer>();
 
 		do {
-			System.out.println("Enter word to be searched: ");
-			String wordToBeSearched = s.nextLine(); // Read user input
+			System.out.println("Input Search Word: ");
+			String searchKeyword = scanInput.nextLine(); // Read user input
 			
 			
 
 			// loop for reading the contents of all the files
-			for (String fileName : Objects.requireNonNull(fileNames)) {
+			for (String files : Objects.requireNonNull(namingFiles)) {
 
-				String file = DIR_PATH + fileName;
-				File currfile = new File(file);
+				String namedFile = DIRECTORY_PATH + files;
+				File currfile = new File(namedFile);
 				if (currfile.exists() && currfile.isFile() && currfile.canRead()) {
-					Path path = Paths.get(file);
-					hm.put(path.getFileName().toString(), new Integer(numberOfOccurrence(path, wordToBeSearched)));
+					Path filePath = Paths.get(namedFile);
+					hashMap.put(filePath.getFileName().toString(), new Integer(numberOfOccurrence(filePath, searchKeyword)));
 
 				}
 			}
 
-			Map<String, Integer> sortedMap = sortByValue(hm);
+			Map<String, Integer> mapAfterSorting = sortingByValue(hashMap);
 
 			// Ranking method called to rank the HTML files from most occurred to least
 			// occurred
-			Ranking(sortedMap);						
+			RankingFiles(mapAfterSorting);						
 					
-			System.out.println("Do you want to search another word? Y/N");
-			restart = s.nextLine();
+			System.out.println("Search For Another Word? Y/N");
+			restart = scanInput.nextLine();
 		} while (restart.equals("y") || restart.equals("Y"));
 
 		if (restart.equals("N") || restart.equals("n"))
-			System.out.println("Thank you for using our program, I hope we get 100 marks!");
+			System.out.println("Thanks for using our Services. Help us get Good Score");
 
 	}
 	
@@ -88,14 +88,14 @@ public class FindWord {
 	
 	
 	 // Method to sort the files on the basis of occurrence of the word
-	  private static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap) {
+	  private static Map<String, Integer> sortingByValue(Map<String, Integer> unsortMap) {
 
 	       
-	        List<Map.Entry<String, Integer>> list =
+	        List<Map.Entry<String, Integer>> mappedList =
 	                new LinkedList<Map.Entry<String, Integer>>(unsortMap.entrySet());
 
 	        
-	        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+	        Collections.sort(mappedList, new Comparator<Map.Entry<String, Integer>>() {
 	            public int compare(Map.Entry<String, Integer> o1,
 	                               Map.Entry<String, Integer> o2) {
 	                return (o1.getValue()).compareTo(o2.getValue());
@@ -103,9 +103,9 @@ public class FindWord {
 	        });
 
 	        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
-	        Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-	        for (Map.Entry<String, Integer> entry : list) {
-	            sortedMap.put(entry.getKey(), entry.getValue());
+	        Map<String, Integer> mapAfterSort = new LinkedHashMap<String, Integer>();
+	        for (Map.Entry<String, Integer> entry : mappedList) {
+	        	mapAfterSort.put(entry.getKey(), entry.getValue());
 	        }
 
 	        /*
@@ -116,7 +116,7 @@ public class FindWord {
 	        }*/
 
 
-	        return sortedMap;
+	        return mapAfterSort;
 	    }
 	
 	
@@ -124,38 +124,37 @@ public class FindWord {
 	 
 	  
 	  
-	  public static <K, V> void Ranking(Map<K, V> map) throws IOException {
-	  ArrayList keyList = new ArrayList(map.keySet());
-		BufferedReader bufReader = new BufferedReader(new FileReader("Cache.txt"));
-		ArrayList<String> listOfLines = new ArrayList<>();
-		Map<String, String> hmt = new HashMap<String, String>();
-		String line = bufReader.readLine(); 
+	  public static <K, V> void RankingFiles(Map<K, V> map) throws IOException {
+	  ArrayList keyWordList = new ArrayList(map.keySet());
+		BufferedReader readingBuffer = new BufferedReader(new FileReader("src/Cache.txt"));
+		ArrayList<String> lineList = new ArrayList<>();
+		Map<String, String> hmtMap = new HashMap<String, String>();
+		String individualLine = readingBuffer.readLine(); 
 	  System.out.println("Ranking of files");
 	  int rank=1;
-		for (int i = keyList.size() - 1; i >= 0; i--) {
+		for (int i = keyWordList.size() - 1; i >= 0; i--) {
 			
 			
-			while (line != null) { 
-				listOfLines.add(line); line = bufReader.readLine(); 
+			while (individualLine != null) { 
+				lineList.add(individualLine); individualLine = readingBuffer.readLine(); 
 				} 
 		
 			
-			for(String st: listOfLines)
+			for(String strng: lineList)
 			{
-				String[] tmp=st.split(" ");
-				hmt.put(tmp[1],tmp[0]);
+				String[] tmp=strng.split(" ");
+				hmtMap.put(tmp[1],tmp[0]);
 				
 			}
 			
 			
 			// File
-			String key = (String) keyList.get(i);
+			String key = (String) keyWordList.get(i);
 			
-			System.out.println(rank+". "+" |||       Occurrence of Word: "+map.get(key) +"   |||       URL "+hmt.get(key));
+			
+			System.out.println(rank+". "+" |||       Occurrence of Word: "+map.get(key) +"   |||       URL:"+hmtMap.get(key));
 			
 		   
-			
-			
 			//Occurrence
 			//int value =(int) map.get(key);
 			//System.out.println("Value :: " + value);
@@ -168,7 +167,7 @@ public class FindWord {
 		
 		
 		
-		bufReader.close();
+		readingBuffer.close();
 	  
 	  }
 	  
@@ -180,41 +179,41 @@ public class FindWord {
 	 */
 	private static int numberOfOccurrence(Path path, String wordToBeSearched) {
 
-		int totalNumber;
+		int totalOccurances;
 
-		TST<Integer> integerTST = new TST<Integer>();
+		TST<Integer> intTernarySearch = new TST<Integer>();
 
-		List<String> lines = null;
+		List<String> eachLine = null;
 		try {
-			lines = Files.readAllLines(path, StandardCharsets.ISO_8859_1); // wrapping with try catch if file get null
+			eachLine = Files.readAllLines(path, StandardCharsets.ISO_8859_1); // wrapping with try catch if file get null
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		// running loop until null
-		for (String line : Objects.requireNonNull(lines)) {
+		for (String line : Objects.requireNonNull(eachLine)) {
 
 			StringTokenizer stringTokenizer = new StringTokenizer(line);
 			while (stringTokenizer.hasMoreTokens()) {
 				String Token = stringTokenizer.nextToken();
-				if (integerTST.get(Token) == null) {
-					integerTST.put(Token, 1);
+				if (intTernarySearch.get(Token) == null) {
+					intTernarySearch.put(Token, 1);
 				} else {
-					integerTST.put(Token, integerTST.get(Token) + 1);
+					intTernarySearch.put(Token, intTernarySearch.get(Token) + 1);
 				}
 			}
 		}
 
-		if (integerTST.get(wordToBeSearched) != null)
-			totalNumber = integerTST.get(wordToBeSearched);
+		if (intTernarySearch.get(wordToBeSearched) != null)
+			totalOccurances = intTernarySearch.get(wordToBeSearched);
 		else
-			totalNumber = 0;
+			totalOccurances = 0;
 
 		// printing total occurrence
   /*	System.out.println("The total number of occurrences of '" + wordToBeSearched + "' in '" + path.getFileName()
 				+ "' is " + totalNumber); */
 		
-		return totalNumber;
+		return totalOccurances;
 	}
 }
 

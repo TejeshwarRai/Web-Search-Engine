@@ -1,3 +1,4 @@
+
 package engine;
 
 import java.io.BufferedReader;
@@ -15,18 +16,18 @@ import lib.TrieNode;
 
 public class SpellCorrector {
 
-	private static final String DIR_PATH = "TextFiles/";
+	private static final String DIR_PATH = "src/WebPagesInText";
 
 	Trie trie = new Trie();
-	Map<String, Integer> dictWordCount = new HashMap<>();
+	Map<String, Integer> WordCount = new HashMap<>(); // creating a hashmap- WordCount
 
-	public void loadSpellCorrector() {
-		File fileFolder = new File(DIR_PATH);
+	public void loadSpellCorrector() { // https://stackabuse.com/java-list-files-in-a-directory/
+		File f = new File(DIR_PATH);
 
-		File[] files = fileFolder.listFiles();
+		File[] files = f.listFiles(); // using a File class as an array
 
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].isFile()) {
+		for (int i = 0; i < files.length; i++) { // iterate through each file
+			if (files[i].isFile()) { // check if specified file is present or not
 
 				try {
 					storeInDictionary(files[i]);
@@ -41,21 +42,21 @@ public class SpellCorrector {
 	public void storeInDictionary(File fileName) throws IOException {
 
 		try {
-			FileReader fileReader = new FileReader(fileName);
-			BufferedReader bufferReader = new BufferedReader(fileReader);
+			FileReader textfileReader = new FileReader(fileName); // // reading text file into array
+			BufferedReader bufferReader = new BufferedReader(textfileReader);
 
-			String line = null;
+			String line = ""; // new line with value empty string
 
-			while ((line = bufferReader.readLine()) != null) {
-				String word = line.toLowerCase();
+			while ((line = bufferReader.readLine()) != null) { // read file line by line only if it is not null
+				String word = line.toLowerCase(); // converting to lower case
 
 				// System.out.println(word);
 
 				if (!line.contains(" ")) {
-					word = word.toLowerCase();
+					word = word.toLowerCase(); // converting to lower case
 					if (isAlpha(word)) {
-						dictWordCount.put(word, dictWordCount.getOrDefault(word, 0) + 1);
-						trie.addWord(word);
+						WordCount.put(word, WordCount.getOrDefault(word, 0) + 1); // increase count if word
+						trie.addWord(word); // add word to trie
 					}
 				} else {
 					String[] sWords = line.split("\\s");
@@ -63,17 +64,17 @@ public class SpellCorrector {
 					for (String sWord : sWords) {
 						sWord = sWord.toLowerCase();
 						if (isAlpha(sWord)) {
-							dictWordCount.put(sWord, dictWordCount.getOrDefault(sWord, 0) + 1);
-							trie.addWord(sWord);
+							WordCount.put(sWord, WordCount.getOrDefault(sWord, 0) + 1);
+							trie.addWord(sWord); // add word to trie
 						}
 					}
 				}
 			}
 
-			fileReader.close();
+			textfileReader.close();
 			bufferReader.close();
 		} catch (Exception e) {
-			System.out.println("in exception block2");
+			System.out.println("exception");
 			e.printStackTrace();
 			System.out.println(e);
 		}
@@ -81,53 +82,58 @@ public class SpellCorrector {
 
 	public static boolean isAlpha(String sWord) {
 
-		return ((sWord != null) && (!sWord.equals("")) && (sWord.matches("^[a-zA-Z]*$")));
+		return ((sWord != null) && (!sWord.equals("")) && (sWord.matches("^[a-zA-Z]*$"))); // check if it contains all
+																							// alphabets
 	}
 
-	public String findSimilarWord(String sInput) {
+	public String findSimilarWord(String input_word) { // input from the user
 		String result = "";
-		if (sInput.length() == 0 || sInput == null)
+		if (input_word.length() == 0 || input_word == null) { // if input is empty, return result
 			return result;
+		}
 
-		String sLowerInput = sInput.toLowerCase();
+		String sLowerInput = input_word.toLowerCase(); // converting input to lower case
 
 		TreeMap<Integer, TreeMap<Integer, TreeSet<String>>> map = new TreeMap<>();
 
-		TrieNode node = trie.search(sLowerInput);
+		TrieNode node = trie.search(sLowerInput); // search input word in trie
 
 		if (node == null) {
-			for (String word : dictWordCount.keySet()) {
-				int distance = lib.Sequences.editDistance(word, sLowerInput);
+			for (String word : WordCount.keySet()) {
+				int distance = lib.Sequences.editDistance(word, sLowerInput); // calculate min distance btw string and
+																				// input word
 				TreeMap<Integer, TreeSet<String>> similarWords = map.getOrDefault(distance, new TreeMap<>());
 
-				int iFrequency = dictWordCount.get(word);
-				TreeSet<String> set = similarWords.getOrDefault(iFrequency, new TreeSet<>());
+				int frequency = WordCount.get(word);
+				TreeSet<String> set = similarWords.getOrDefault(frequency, new TreeSet<>());
 				set.add(word);
-				similarWords.put(iFrequency, set);
+
+				similarWords.put(frequency, set);
 				map.put(distance, similarWords);
 			}
 
 			result = map.firstEntry().getValue().lastEntry().getValue().first();
-		} else if (node != null)
+		} else if (node != null) {
 			result = sLowerInput;
+		}
 
 		return result;
 	}
 
-	public ArrayList autocomplete(String sInput) {
+	public ArrayList autocomplete(String input_word) {
 		ArrayList<String> ab = new ArrayList<String>();
 
-		if (sInput.length() == 0 || sInput == null)
+		if (input_word.length() == 0 || input_word == null) {
 			return ab;
+		}
 
-		String sLowerInput = sInput.toLowerCase();
+		String sLowerInput = input_word.toLowerCase();
 
 		TrieNode node = trie.search(sLowerInput);
-//		sLowerInput=" "+sLowerInput;
+
 
 		if (node == null) {
-			for (String word : dictWordCount.keySet()) {
-				// System.out.println(" word is"+word+"");
+			for (String word : WordCount.keySet()) {
 				if (!word.isEmpty()) {
 					if (word.startsWith(sLowerInput)) {
 						ab.add(word);
