@@ -37,7 +37,7 @@ public class Application {
 				System.out.println("Please enter the url to be searched");
 				String url = sc.nextLine();
 				if (isValidUrl(url)) {
-					if (!Cache.isAvailable(url)) {
+					if (!CacheManager.isAvailable(url)) {
 						Crawler.crawlWeb(1, url, new ArrayList<String>());
 
 					} else {
@@ -51,7 +51,7 @@ public class Application {
 				break;
 
 			case 2:
-				Cache.deleteCache();
+				CacheManager.deleteCache();
 				break;
 
 			case 3:
