@@ -90,6 +90,8 @@ public class WebCrawler implements Runnable{
 				visit.put(url, title);
 				writeFile(title, doc);
 
+				HTMLtoText.convertToTextFile(url);
+				
 				return doc;
 			}
 		} catch (Exception e) {
