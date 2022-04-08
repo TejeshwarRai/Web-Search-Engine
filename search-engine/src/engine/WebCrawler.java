@@ -19,7 +19,8 @@ public class WebCrawler implements Runnable{
 	private static Map<String, String> visit = new HashMap<String, String>();
 	private String link;
 	private static int total = 0;
-	
+	public static final String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+
 	
 	
 	public WebCrawler(String link, int num) {
@@ -64,7 +65,7 @@ public class WebCrawler implements Runnable{
 	
 	private static boolean isURL(String url)
 	{
-		String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+//		String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 		
 		 Pattern p = Pattern.compile(regex);
 	     Matcher m = p.matcher(url);
@@ -86,7 +87,7 @@ public class WebCrawler implements Runnable{
 			if (con.response().statusCode() == 200)
 			{
 				System.out.println(url);
-				TextToHTML.convertToTextFile(url);
+				HTMLtoText.convertToTextFile(url);
 				String title = doc.title();
 				visit.put(url, title);
 				return doc;

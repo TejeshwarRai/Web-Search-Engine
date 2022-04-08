@@ -20,12 +20,12 @@ public class Application {
 			System.out.println("Choose 6 : Word Frequency");
 			System.out.println("Choose 7 : Exit from program");
 
-//		String url = "https://www.shiksha.com/";
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Please enter your choice");
 			int choice = sc.nextInt();
 			sc = new Scanner(System.in);
 			if (choice == 7) {
+				System.out.println("Program is terminated!!");
 				break;
 			}
 
@@ -86,13 +86,12 @@ public class Application {
 				System.out.println(suggestion1.toString());
 
 				break;
-
+				
 			case 6:
-				System.out.println("Please enter a word to check the frequency");
-				String word = sc.nextLine();
+				System.out.println("Please enter a word to get its frequency::");
+				String workForFrequency = sc.nextLine();
 				WordFrequency wf = new WordFrequency();
-				wf.findFrequency(word);
-
+				wf.findFrequency(workForFrequency);
 				break;
 
 			default:
@@ -104,7 +103,7 @@ public class Application {
 	}
 
 	private static boolean isValidUrl(String url) {
-		if (Pattern.matches(Crawler.URL_PATTERN, url))
+		if (Pattern.matches(WebCrawler.regex, url))
 			return true;
 		return false;
 	}

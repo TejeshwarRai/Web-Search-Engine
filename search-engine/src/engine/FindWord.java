@@ -43,6 +43,8 @@ public class FindWord {
 		// create instance of directory
 		File fileDir = new File(DIRECTORY_PATH);
 		Scanner scanInput = new Scanner(System.in);
+		WordFrequency wf = new WordFrequency();
+
 		String restart;
 
 		// Get list of all the files in form of String Array
@@ -64,7 +66,7 @@ public class FindWord {
 				File currfile = new File(namedFile);
 				if (currfile.exists() && currfile.isFile() && currfile.canRead()) {
 					Path filePath = Paths.get(namedFile);
-					hashMap.put(filePath.getFileName().toString(), new Integer(numberOfOccurrence(filePath, searchKeyword)));
+					hashMap.put(filePath.getFileName().toString(), new Integer(wf.findFrequencyInAFile(filePath, searchKeyword)));
 
 				}
 			}
@@ -161,59 +163,10 @@ public class FindWord {
 			rank++;
 		}
 		
-	
-		
-		
-		
-		
-		
 		readingBuffer.close();
 	  
 	  }
 	  
-	/**
-	 * Method used to find the number of occurrences of a string/word
-	 *
-	 * @param path
-	 * @param wordToBeSearched
-	 */
-	private static int numberOfOccurrence(Path path, String wordToBeSearched) {
-
-		int totalOccurances;
-
-		TST<Integer> intTernarySearch = new TST<Integer>();
-
-		List<String> eachLine = null;
-		try {
-			eachLine = Files.readAllLines(path, StandardCharsets.ISO_8859_1); // wrapping with try catch if file get null
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		// running loop until null
-		for (String line : Objects.requireNonNull(eachLine)) {
-
-			StringTokenizer stringTokenizer = new StringTokenizer(line);
-			while (stringTokenizer.hasMoreTokens()) {
-				String Token = stringTokenizer.nextToken();
-				if (intTernarySearch.get(Token) == null) {
-					intTernarySearch.put(Token, 1);
-				} else {
-					intTernarySearch.put(Token, intTernarySearch.get(Token) + 1);
-				}
-			}
-		}
-
-		if (intTernarySearch.get(wordToBeSearched) != null)
-			totalOccurances = intTernarySearch.get(wordToBeSearched);
-		else
-			totalOccurances = 0;
-
-		// printing total occurrence
-  /*	System.out.println("The total number of occurrences of '" + wordToBeSearched + "' in '" + path.getFileName()
-				+ "' is " + totalNumber); */
-		
-		return totalOccurances;
-	}
+	
 }
 

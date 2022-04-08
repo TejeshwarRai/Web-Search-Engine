@@ -11,7 +11,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class TextToHTML {
+public class HTMLtoText {
 
 	public static void main(String args[]) {
 		try {
