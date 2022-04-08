@@ -14,7 +14,7 @@ public class Application {
 			System.out.println("Please choose an option from the list below");
 			System.out.println("Choose 1 : Search a url (Web Crawling)");
 			System.out.println("Choose 2 : Delete cache");
-			System.out.println("Choose 3 : Rank the web pages according to the occurance of a word");
+			System.out.println("Choose 3 : Rank the web pages according to the occurence of a word");
 			System.out.println("Choose 4 : Auto-Correct (Words Suggestion)");
 			System.out.println("Choose 5 : Auto-Complete");
 			System.out.println("Choose 6 : Word Frequency");
@@ -39,8 +39,7 @@ public class Application {
 				String url = sc.nextLine();
 				if (isValidUrl(url)) {
 					if (!CacheManager.isAvailable(url)) {
-						WebCrawler.crawl(1, url);
-//						Crawler.crawlWeb(1, url, new ArrayList<String>());
+						WebCrawler wc = new WebCrawler("https://uwindsor.ca/", 2, 15);
 
 					} else {
 						System.out.println("This URL has already been crawled.");
