@@ -39,7 +39,7 @@ public class Application {
 				String url = sc.nextLine();
 				if (isValidUrl(url)) {
 					if (!CacheManager.isAvailable(url)) {
-						WebCrawler wc = new WebCrawler("https://uwindsor.ca/", 2, 15);
+						WebCrawler wc = new WebCrawler(url, 2, 15);
 
 					} else {
 						System.out.println("This URL has already been crawled.");
