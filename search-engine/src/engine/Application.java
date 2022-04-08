@@ -37,9 +37,13 @@ public class Application {
 			case 1:
 				System.out.println("Please enter the url to be searched");
 				String url = sc.nextLine();
+					System.out.println("Please enter the depth");
+				int depth = sc.nextInt();
+					System.out.println("Please enter the total number of links");
+				int max = sc.nextInt();
 				if (isValidUrl(url)) {
 					if (!CacheManager.isAvailable(url)) {
-						WebCrawler wc = new WebCrawler(url, 2, 15);
+						WebCrawler wc = new WebCrawler(url, depth, max);
 
 					} else {
 						System.out.println("This URL has already been crawled.");
