@@ -24,48 +24,6 @@ import lib.TST;
 
 public class WordFrequency {
 
-	/**
-	 * Method used to find the number of occurrences of a string/word
-	 *
-	 * @param path
-	 * @param wordToBeSearched
-	 */
-	static int numberOfOccurrence(Path path, String wordToBeSearched) {
-
-		int totalOccurances;
-
-		TST<Integer> intTernarySearch = new TST<Integer>();
-
-		List<String> eachLine = null;
-		try {
-			eachLine = Files.readAllLines(path, StandardCharsets.ISO_8859_1); // wrapping with try catch if file get
-																				// null
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		// running loop until null
-		for (String line : Objects.requireNonNull(eachLine)) {
-
-			StringTokenizer stringTokenizer = new StringTokenizer(line);
-			while (stringTokenizer.hasMoreTokens()) {
-				String Token = stringTokenizer.nextToken();
-				if (intTernarySearch.get(Token) == null) {
-					intTernarySearch.put(Token, 1);
-				} else {
-					intTernarySearch.put(Token, intTernarySearch.get(Token) + 1);
-				}
-			}
-		}
-
-		if (intTernarySearch.get(wordToBeSearched) != null)
-			totalOccurances = intTernarySearch.get(wordToBeSearched);
-		else
-			totalOccurances = 0;
-
-		return totalOccurances;
-	}
-
 	static void findFrequency(String wordsearch) {
 		int totalNumber;
 		File[] files = new File("src/WebPagesInText/").listFiles(); // Getting path of file

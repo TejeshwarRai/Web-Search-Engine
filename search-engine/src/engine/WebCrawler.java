@@ -105,7 +105,7 @@ public class WebCrawler implements Runnable{
 		count++;
 		BufferedWriter writerTxt;
 		try {
-			writerTxt = new BufferedWriter(new FileWriter(".\\src\\saved\\" + title + "" + count + ".html"));
+			writerTxt = new BufferedWriter(new FileWriter("src/saved/" + title + "" + count + ".html"));
 			writerTxt.write(doc.outerHtml());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
